@@ -1,0 +1,25 @@
+.detail-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    .detail-image{
+        background-color: rgb(245, 245, 245);
+        border-radius: 20px;
+        border: 2px solid rgb(235, 235, 235);
+        margin: 2% 10% 10% 10%;
+        display: flex;
+        flex-direction: row;
+        img{
+            width: auto;
+            height: 30rem;
+            border-radius: 20px;
+        }
+        .des{
+            font-size: 30px;
+            font-weight: bold;
+            font-family: 'Dancing Script', cursive;
+            padding: 20px;
+        }
+    }
+}

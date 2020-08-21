@@ -1,0 +1,9 @@
+.layout{
+    display: flex;
+    flex-direction: column;
+    .page-content{
+        margin-top: 6%;
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+}
