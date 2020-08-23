@@ -7,21 +7,33 @@ import * as path from '../../constant/path'
 
 const Detail = (props) => {
     const id = useParams().id;
-    const [image, setImage] = useState({})
+    const [file, setFile] = useState({})
 
     useEffect(() => {
         sendRequest('/get/' + id, 'GET', null)
             .then(res => {
-                setImage(res.data)
+                setFile(res.data)
             })
     }, {})
+
+    const renderFile=()=>{
+        if (file.type == 'image') {
+            return (
+                <img src={path.SERVER_BASE_URL + file.url} className="item"/>
+            )
+        }
+        return (
+                <video controls className="item" autoPlay src={path.SERVER_BASE_URL + file.url}/>
+        )
+    }
 
     return (
         <div className="detail-page">
             <div className="detail-image">
-                <img src={path.SERVER_BASE_URL + image.url} />
+                {renderFile()}
                 <div className="des">
-                    <p>{image.des}</p>
+                    <div className="date">#{file.date}</div>
+                    <p>{file.des}</p>
                 </div>
             </div>
             <Gallery />

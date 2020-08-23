@@ -2,6 +2,7 @@ package com.ntt.gallery.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity
 @Table(name = "file_infor")
@@ -11,12 +12,36 @@ public class FileInfor implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "url")
     private String url;
+
+    @Column(name = "date")
+    private Date date;
+
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "des")
     private String des;
 
     public FileInfor() {
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {

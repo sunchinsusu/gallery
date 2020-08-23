@@ -1,10 +1,13 @@
 .header{
-    background-color: white;
+    background-color: rgb(240, 240, 240);
+    opacity: 1;
     width: 100%;
     display: flex;
     justify-items: center;
     padding: 10px;
     position: fixed;
+    top: 0;
+    
     .logo{
         width: auto;
         height: 40px;
@@ -21,14 +24,14 @@
     }
     .search{
         margin-left: 10%;
-        background-color: rgb(241, 241, 241);
+        background-color: rgb(255, 255, 255);
         width: 30%;
         outline: none;
         border-radius: 25px;
         border: none;
         padding: 1%;
         input{
-            background-color: rgb(241, 241, 241);;
+            background-color: rgb(255, 255, 255);
             width: 80%;
             outline: none;
             border-radius: 25px;

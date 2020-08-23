@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -19,24 +20,34 @@ public class HomeController {
     FileInforRepository fileInforRepo;
 
     @PostMapping("/upload-one-file")
-    public ResponseEntity<Object> upload(HttpServletRequest req, @RequestParam(name = "file") MultipartFile file, @RequestParam(name = "des") String des){
+    public ResponseEntity<Object> upload(HttpServletRequest req, @RequestParam(name = "file") MultipartFile file,
+                                         @RequestParam(name = "des") String des, @RequestParam(name = "date") Date date){
         String basePath = req.getServletContext().getRealPath("/directory");
         File folder = new File(basePath);
         if (!folder.exists()) {
             folder.mkdir();
         }
-        String imageName = file.getOriginalFilename();
-        String imagePath = basePath +"/"+ imageName;
+        String fileName = file.getOriginalFilename();
+        String filePath = basePath +"/"+ fileName;
 
 
-        if(imageName != null && imageName.length() > 0) {
-            File fileServer = new File(imagePath);
+        if(fileName != null && fileName.length() > 0) {
+            File fileServer = new File(filePath);
 
             try {
+                //save file
                 file.transferTo(fileServer);
+                //save file infor
                 FileInfor fileInfor = new FileInfor();
-                fileInfor.setUrl("/directory/"+imageName);
+                fileInfor.setUrl("/directory/"+fileName);
                 fileInfor.setDes(des);
+                fileInfor.setDate(date);
+                if(checkImage(fileName)){
+                    fileInfor.setType("image");
+                }
+                else{
+                    fileInfor.setType("video");
+                }
                 fileInforRepo.save(fileInfor);
 
             } catch (IllegalStateException | IOException e) {
@@ -44,7 +55,18 @@ public class HomeController {
             }
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
+    public boolean checkImage(String name){
+        String inversiveName = "";
+        for(int i = name.length()-1; i>=0; i--){
+            inversiveName += name.charAt(i);
+        }
+        inversiveName = inversiveName.toLowerCase();
+        if(inversiveName.indexOf("gpj.")==0||inversiveName.indexOf("gepj.")==0||inversiveName.indexOf("gnp.")==0){
+            return true;
+        }
+        return false;
     }
 
     @GetMapping("/get-all")

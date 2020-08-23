@@ -18,14 +18,15 @@
         flex-direction: column;
         padding: 5px;
     }
-    img{
+    .item{
         padding: 5px;
         width: 100%;
         height: auto;
         cursor: pointer;
         border-radius: 20px;
+        outline: none;
     }
-    img:hover{
+    .item:hover{
         box-shadow: 3px 3px 3px 2px rgb(233, 233, 233);
     }
 }

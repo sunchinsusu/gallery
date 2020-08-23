@@ -7,6 +7,7 @@ const AddNew = (props) => {
 
     const [file, setFile] = useState(null)
     const [des, setDes] = useState("")
+    const [date,setDate] = useState(null)
 
     const changeFile = (event) => {
         setFile(event.target.files[0])
@@ -17,11 +18,15 @@ const AddNew = (props) => {
         setDes(event.target.value)
         console.log(event.target.value)
     }
+    const changeDate = (event) => {
+        setDate(event.target.value)
+    }
 
     const upload = (event) => {
         var formData = new FormData();
         formData.append("file",file)
         formData.append("des",des)
+        formData.append("date",date)
         var url = path.SERVER_BASE_URL+'/upload-one-file'
         axios.post(url, formData, {
                 headers: {
@@ -44,6 +49,7 @@ const AddNew = (props) => {
             <div className="add-new">
                 <p>Add Photo</p>
                 <div className="form">
+                    <input type="date" name="date" onChange={changeDate}/>
                     <input type="file" name="file" onChange={changeFile} />
                     <textarea name="des" value={des} onChange={changeDes}></textarea>
                     <button onClick={upload}>Upload</button>
