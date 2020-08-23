@@ -5,8 +5,6 @@ const sendRequest = (endpoint, method, body) => {
         method,
         url: `http://localhost:8080${endpoint}`,
         data: body
-    }).catch(err => {
-        console.log(err);
     });
 }
 

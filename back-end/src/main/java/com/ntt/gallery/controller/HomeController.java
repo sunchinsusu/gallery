@@ -3,7 +3,11 @@ package com.ntt.gallery.controller;
 import com.ntt.gallery.entity.FileInfor;
 import com.ntt.gallery.repository.FileInforRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Date;
 
 @RestController
@@ -49,7 +54,8 @@ public class HomeController {
                     fileInfor.setType("video");
                 }
                 fileInforRepo.save(fileInfor);
-
+                fileInfor.setUrlDownload("/download/"+fileInfor.getId());
+                fileInforRepo.save(fileInfor);
             } catch (IllegalStateException | IOException e) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -77,5 +83,23 @@ public class HomeController {
     @GetMapping("/get/{id}")
     public ResponseEntity<Object> getById(@PathVariable(name = "id")int id){
         return new ResponseEntity<>(fileInforRepo.findById(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Object> download(HttpServletRequest req, @PathVariable(name = "id")int id) throws IOException {
+
+        String filePath = req.getServletContext().getRealPath(fileInforRepo.findById(id).getUrl());
+        System.out.println(filePath);
+        Resource resource = new UrlResource("file:///"+filePath);
+        System.out.println(resource.getFile().getName());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
+
+    @GetMapping("/search/{key}")
+    public ResponseEntity<Object> searchDes(@PathVariable(name = "key")String key){
+        return new ResponseEntity<>(fileInforRepo.findByDesContaining(key),HttpStatus.OK);
     }
 }

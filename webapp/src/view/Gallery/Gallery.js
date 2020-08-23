@@ -11,7 +11,12 @@ const Gallery = (props) => {
         sendRequest('/get-all', 'GET', null)
             .then(res => {
                 setFiles(res.data)
+                console.log(res.data)
             })
+            .catch(err => {
+                alert("Can't connect to server!")
+            })
+
     }, [])
 
     const renderCol = () => {
@@ -34,34 +39,34 @@ const Gallery = (props) => {
             if (file.type == 'image') {
                 return (
                     <a href={"/detail/" + file.id}>
-                        <img src={path.SERVER_BASE_URL + file.url} className="item"/>
+                        <img src={path.SERVER_BASE_URL + file.url} className="item" />
                     </a>
                 )
             }
             return (
                 <a href={"/detail/" + file.id}>
                     <video controls="controls" className="item">
-                        <source src={path.SERVER_BASE_URL + file.url}/>
-		            </video>
+                        <source src={path.SERVER_BASE_URL + file.url} />
+                    </video>
                 </a>
             )
         })
     }
     return (
-                    <div className="gallery">
-                        <div className="col-1">
-                            {renderCol()}
-                        </div>
-                        <div className="col-1">
-                            {renderCol()}
-                        </div>
-                        <div className="col-1">
-                            {renderCol()}
-                        </div>
-                        <div className="col-1">
-                            {renderCol()}
-                        </div>
-                    </div>
+        <div className="gallery">
+            <div className="col-1">
+                {renderCol()}
+            </div>
+            <div className="col-1">
+                {renderCol()}
+            </div>
+            <div className="col-1">
+                {renderCol()}
+            </div>
+            <div className="col-1">
+                {renderCol()}
+            </div>
+        </div>
     );
 }
 

@@ -25,7 +25,18 @@ public class FileInfor implements Serializable {
     @Column(name = "des")
     private String des;
 
+    @Column(name = "url_download")
+    private String urlDownload;
+
     public FileInfor() {
+    }
+
+    public String getUrlDownload() {
+        return urlDownload;
+    }
+
+    public void setUrlDownload(String urlDownload) {
+        this.urlDownload = urlDownload;
     }
 
     public Date getDate() {

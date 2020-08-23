@@ -33,6 +33,9 @@ const Detail = (props) => {
                 {renderFile()}
                 <div className="des">
                     <div className="date">#{file.date}</div>
+                    <a href={path.SERVER_BASE_URL+file.urlDownload} >
+                        <img src="/images/download.png" />
+                    </a>
                     <p>{file.des}</p>
                 </div>
             </div>
